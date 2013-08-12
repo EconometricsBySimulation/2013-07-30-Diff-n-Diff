@@ -19,7 +19,7 @@ gen f5 = rnormal()
 expand 2, gen(t)  // double our data
 
 gen treat=0
-replace treat=1 if ((id&lt;=_N/4)&amp;(t==1))
+replace treat=1 if ((id<=_N/4)&(t==1))
 
 * Now let's generate our changes in etas
 replace eta1 = eta1 + treat*1 + t*.5
@@ -35,10 +35,10 @@ gen v5 = f5*1   +           eta2*1  // the last few questions
 * END Simulation
 * Begin Estimation
 
-sem (L1 -&gt; v1 v2 v3 v4 v5) (L2 -&gt; v1 v2 v3 v4 v5) if t==0
+sem (L1 -> v1 v2 v3 v4 v5) (L2 -> v1 v2 v3 v4 v5) if t==0
 predict L1 L2, latent
 
-sem (L1 -&gt; v1 v2 v3 v4 v5) (L2 -&gt; v1 v2 v3 v4 v5) if t==1
+sem (L1 -> v1 v2 v3 v4 v5) (L2 -> v1 v2 v3 v4 v5) if t==1
 predict L12 L22, latent
 
 replace  L1 = L12 if t==1
@@ -73,10 +73,10 @@ program define SEMdnd
 
   tempvar L1 L2 L12 L22
   
-  sem (L1 -&gt; v1 v2 v3 v4 v5) (L2 -&gt; v1 v2 v3 v4 v5) if t==0
+  sem (L1 -> v1 v2 v3 v4 v5) (L2 -> v1 v2 v3 v4 v5) if t==0
   predict `L1' `L2', latent
   
-  sem (L1 -&gt; v1 v2 v3 v4 v5) (L2 -&gt; v1 v2 v3 v4 v5) if t==1
+  sem (L1 -> v1 v2 v3 v4 v5) (L2 -> v1 v2 v3 v4 v5) if t==1
   predict `L12' `L22', latent
 
   replace  `L1' = `L12' if t==1
